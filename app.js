@@ -6,6 +6,19 @@ app.set('view engine', 'ejs')
 
 app.listen(3000)
 
+app.use((req, res, next) => {
+  console.log('new request')
+  console.log(req.hostname)
+  console.log(req.path)
+  console.log(req.method)
+  next()
+})
+
+app.use((req, res, next) => {
+  console.log('next')
+  next()
+})
+
 app.get('/', (req, res) => {
   const blogs = [
     {title: 'Yoshi finds eggs', snippet: 'Lorem ipsum dolor sit amet consectetur'},
