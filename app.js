@@ -24,6 +24,20 @@ app.get('/', (req, res) => {
   res.redirect('/blogs')
 })
 
+app.get('/blogs/:id', (req, res) => {
+  Blog.findById(req.params.id)
+    .then(rv => res.render('details', { title: 'Blog Details', blog: rv }))
+    .catch(err => console.log(err))
+})
+
+app.delete('/blogs/:id', (req, res) => {
+  Blog.findByIdAndDelete(req.params.id)
+    .then(rv => {
+      res.json({ redirect: '/blogs' })
+    })
+    .catch(err => console.log(err))
+})
+
 app.get('/blogs', (req, res) => {
   Blog.find().sort({ createdAt: -1 })
     .then(rv => {
