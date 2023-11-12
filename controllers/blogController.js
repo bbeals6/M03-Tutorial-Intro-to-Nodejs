@@ -10,19 +10,21 @@ module.exports.blog_create_post = (req, res) => {
 module.exports.blog_index = (req, res) => {
   Blog.find().sort({ createdAt: -1 })
   .then(rv => {
-    res.render('index', { title: 'All Blogs', blogs: rv })
+    res.render('blogs/index', { title: 'All Blogs', blogs: rv })
   })
   .catch(err => console.log(err))
 }
 
 module.exports.blog_details = (req, res) => {
   Blog.findById(req.params.id)
-    .then(rv => res.render('details', { title: 'Blog Details', blog: rv }))
-    .catch(err => console.log(err))
+    .then(rv => res.render('blogs/details', { title: 'Blog Details', blog: rv }))
+    .catch(err => {
+      res.status(404).render('404', { title: 'Blog Not Found' })
+    })
 }
 
 module.exports.blog_create_get = (req, res) => {
-  res.render('create', { title: 'Create' })
+  res.render('blogs/create', { title: 'Create' })
 }
 
 module.exports.blog_delete = (req, res) => {
