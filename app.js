@@ -1,25 +1,42 @@
 const express = require('express')
 const morgan = require('morgan')
- 
+const mongoose = require('mongoose')
+const Blog = require('./models/blog')
+
+const dbURI = 'mongodb+srv://netjinja:test1234@cluster0.3ypf18c.mongodb.net/nodetuts?retryWrites=true&w=majority'
 const app = express()
+
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    app.listen(3000)
+  }).catch(err => {
+    console.log(err)
+  })
 
 app.set('view engine', 'ejs')
 
-app.listen(3000)
-
 //static
 app.use(express.static('public'))
-
+app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
 app.get('/', (req, res) => {
-  const blogs = [
-    {title: 'Yoshi finds eggs', snippet: 'Lorem ipsum dolor sit amet consectetur'},
-    {title: 'Mario finds stars', snippet: 'Lorem ipsum dolor sit amet consectetur'},
-    {title: 'How to defeat bowser', snippet: 'Lorem ipsum dolor sit amet consectetur'},
-  ]
+  res.redirect('/blogs')
+})
 
-  res.render('index', { title: 'Home Page', blogs })
+app.get('/blogs', (req, res) => {
+  Blog.find().sort({ createdAt: -1 })
+    .then(rv => {
+      res.render('index', { title: 'All Blogs', blogs: rv })
+    })
+    .catch(err => console.log(err))
+})
+
+app.post('/blogs', (req, res) => {
+  const blog = new Blog(req.body)
+  blog.save()
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err))
 })
 
 app.get('/about', (req, res) => {
