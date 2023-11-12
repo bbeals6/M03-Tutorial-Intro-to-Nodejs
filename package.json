@@ -1,16 +1,20 @@
 {
-  "name": "nodejs",
+  "name": "m03-tutorial-intro-to-nodejs",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "directories": {
+    "doc": "docs"
   },
-  "keywords": [],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^18.0.6",
-    "node-fetch": "^3.2.6"
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "lodash": "^4.17.21"
   }
 }
