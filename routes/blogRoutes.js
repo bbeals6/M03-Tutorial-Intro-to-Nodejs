@@ -3,6 +3,10 @@ const Blog = require('../models/blog')
 
 const router = express.Router()
 
+router.get('/blogs/create', (req, res) => {
+  res.render('create', { title: 'Create' })
+})
+
 router.get('/blogs/:id', (req, res) => {
   Blog.findById(req.params.id)
     .then(rv => res.render('details', { title: 'Blog Details', blog: rv }))
@@ -30,10 +34,6 @@ router.post('/blogs', (req, res) => {
   blog.save()
     .then(() => res.redirect('/'))
     .catch(err => console.log(err))
-})
-
-router.get('/blogs/create', (req, res) => {
-  res.render('create', { title: 'Create' })
 })
 
 module.exports = router
